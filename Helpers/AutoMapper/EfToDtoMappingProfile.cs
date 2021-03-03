@@ -12,7 +12,7 @@ namespace AGVDistributionSystem.Helpers.AutoMapper
             CreateMap<Roles, RolesDTO>();
             CreateMap<RunningPO, RunningPODTO>();
             CreateMap<UserRole, UserRoleDTO>();
-            CreateMap<V_PO, V_PODTO>();
+            CreateMap<V_PO2, V_PO2DTO>();
             CreateMap<VW_MES_Org, VW_MES_OrgDTO>();
             CreateMap<VW_UserAcc, VW_UserAccDTO>();
         }

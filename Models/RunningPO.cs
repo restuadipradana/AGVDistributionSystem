@@ -7,8 +7,8 @@ namespace AGVDistributionSystem.Models
     {
         [Key]
         public Guid Id {get; set;}
-        public Guid PrepStatId {get; set;}
-        public Guid StiStatId {get; set;}
+        public Guid? PrepStatId {get; set;}
+        public Guid? StiStatId {get; set;}
 
         [Required]
         public string PO {get; set;}

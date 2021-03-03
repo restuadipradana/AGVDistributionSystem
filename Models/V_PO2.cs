@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AGVDistributionSystem.Models
 {
-    public class V_PO
+    public class V_PO2
     {
         public string Factory {get; set;}
         public string Line {get; set;}
@@ -25,6 +25,8 @@ namespace AGVDistributionSystem.Models
         //public DateTime? CRD {get; set;}
         public Guid PrepStatId {get; set;}
         public Guid StiStatId {get; set;}
+        public string PrepStat {get; set;}
+        public string StiStat {get; set;}
 
     }
 }

@@ -2,10 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-//for stitching
 namespace AGVDistributionSystem.Models
 {
-    public class ProcessStatus
+    public class ProcessStatusPreparation
     {
         [Key]
         [Column(Order = 0)]
@@ -30,6 +29,5 @@ namespace AGVDistributionSystem.Models
         [Required]
         public DateTime CreateAt {get; set;}
         public DateTime? UpdateAt {get; set;}
-
     }
 }

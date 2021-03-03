@@ -11,6 +11,6 @@ namespace AGVDistributionSystem._Services.Interfaces
          Task<object> GetAllUser();
          Task<List<VW_MES_OrgDTO>> GetOrgAsync();
          Task<VW_UserAccDTO> GetUserAsync(string account);
-         Task<DataTablesResponse<V_PODTO>> POListSearch(DataTablesRequest ListPO);
+         Task<DataTablesResponse<V_PO2DTO>> POListSearch(DataTablesRequest ListPO);
     }
 }

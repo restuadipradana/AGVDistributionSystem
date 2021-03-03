@@ -46,14 +46,14 @@ namespace AGVDistributionSystem._Services.Services
 
         //real test svc
 
-        public async Task<DataTablesResponse<V_PODTO>> POListSearch(DataTablesRequest ListPO)
+        public async Task<DataTablesResponse<V_PO2DTO>> POListSearch(DataTablesRequest ListPO)
         {
-            var result = new DataTablesResponse<V_PODTO>()
+            var result = new DataTablesResponse<V_PO2DTO>()
             {
                 Draw = ListPO.Draw
             };
-            IQueryable<V_PO> query = null;
-            query = _context.V_PO.Where(x => x.Act_End_ASY == null).AsQueryable();
+            IQueryable<V_PO2> query = null;
+            query = _context.V_PO2.Where(x => x.Act_End_ASY == null).AsQueryable();
             query = query.OrderBy(x => x.Line).ThenBy(x => x.PO);//order by line asc, po w/ seq asc
             //query = query.OrderBy(x => x.PO);
             bool isFilterNull = string.IsNullOrEmpty(ListPO.SearchCriteria.Filter); // po
@@ -87,7 +87,7 @@ namespace AGVDistributionSystem._Services.Services
             //            break;
             //    }
             //}
-            var FinalArray = await query.ProjectTo<V_PODTO>(_configMapper).Skip(ListPO.Start).Take(ListPO.Length).ToArrayAsync();
+            var FinalArray = await query.ProjectTo<V_PO2DTO>(_configMapper).Skip(ListPO.Start).Take(ListPO.Length).ToArrayAsync();
             result.Data = FinalArray;
             result.RecordsTotal = recordsTotal;
             result.RecordsFiltered = recordsTotal;

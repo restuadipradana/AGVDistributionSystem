@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AGVDistributionSystem.DTO
 {
-    public class V_PODTO
+    public class V_PO2DTO
     {
         public string Factory {get; set;}
         public string Line {get; set;}
@@ -48,5 +48,7 @@ namespace AGVDistributionSystem.DTO
                 }
             }
         }
+        public string PrepStat { get; set; }
+        public string StiStat { get; set; }
     }
 }
