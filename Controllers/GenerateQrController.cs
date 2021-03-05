@@ -29,15 +29,7 @@ namespace AGVDistributionSystem.Controllers
         [HttpPost("generate")]
         public async Task<IActionResult> GetSeletedData(JToken jtk)
         {        
-            var CheckedData = jtk.Value<JObject>("dataTablesParam").ToObject<RequestData>();    
-            var PrepParam = CheckedData.Prep.ToList();
-            var StiPardam = CheckedData.Sti.ToList();
-            //var PrepParam = DTParam.Value<JObject>("prep").ToObject<RequestData>();
-            //var kjas = DTParam.SelectToken("prep").ToL ist();
-            //foreach ( var assz in kjas){
-            //    var ss = assz.ToList();
-            //}
-            //var lists = await _master.ProductDetailSearch(DTParam, ProductMainId);
+            var CheckedData = jtk.Value<JObject>("dataTablesParam").ToObject<RequestData>();   
             var res = await _mainService.GenerateQR(CheckedData);
             return Ok();
         }

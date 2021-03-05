@@ -80,19 +80,15 @@ namespace AGVDistributionSystem._Services.Services
         {
             var PrepParam = data.Prep.ToList();
             var StiParam = data.Sti.ToList();
-            //var newData = _mapper.Map<MSTR_Product_Unit>(dataDTO);
-            //newData.Id = Guid.NewGuid();
-            //ctx.MSTR_Product_Unit.Add(newData);
             Guid IdInsertedProcessStatus = Guid.Empty;
 
-            var assq = await _context.VW_MES_Org.ToListAsync();
             if (StiParam.Count != 0)
             {
                 int cnt = 1;
                 for(var i = 0; i < StiParam.Count; i++)
                 {
                     if (i==0)
-                    {
+                    {   //bikin qr baru
                         IdInsertedProcessStatus = GAddProcessStatus("STI");
                         if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
                         cnt++;
@@ -105,19 +101,19 @@ namespace AGVDistributionSystem._Services.Services
                             {
                                 if(StiParam[i].Qty < 50 && i == StiParam.Count-1) //sampe urutan terakhir dari array
                                 {
-                                    if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
+                                    if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus)) //ga bikin
                                     cnt++;
                                 }
                                 else if (StiParam[i].Qty < 50 && (StiParam[i].Article != StiParam[i+1].Article && StiParam[i].Line != StiParam[i+1].Line)) //sampe urutan terakhir grup line & model
                                 {
-                                    if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
+                                    if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus)) //ga bikin
                                     cnt++;
                                 }
                                 else //bikin qr baru
                                 {
                                     IdInsertedProcessStatus = GAddProcessStatus("STI");
                                     if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
-                                    cnt = 1;
+                                    cnt = 2;
                                 }
                             }
                             else
@@ -129,8 +125,8 @@ namespace AGVDistributionSystem._Services.Services
                         else
                         {
                             IdInsertedProcessStatus = GAddProcessStatus("STI");
-                            if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus));
-                            cnt = 1;
+                            if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
+                            cnt = 2;
                         }
                     }
                 }
@@ -149,7 +145,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     else
                     {
-                        if(PrepParam[i].Article == PrepParam[i-1].Article && PrepParam[i].Line == PrepParam[i-1].Line) // line n artikel sama dengan sebelumnya
+                        if(PrepParam[i].Article == PrepParam[i-1].Article || PrepParam[i].Line == PrepParam[i-1].Line) // line n artikel sama dengan sebelumnya
                         {
                             if(cnt>2)
                             {
@@ -158,7 +154,7 @@ namespace AGVDistributionSystem._Services.Services
                                     if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
                                     cnt++;
                                 }
-                                else if (PrepParam[i].Qty < 50 && (PrepParam[i].Article != PrepParam[i+1].Article && PrepParam[i].Line != PrepParam[i+1].Line)) //sampe urutan terakhir grup line & model
+                                else if (PrepParam[i].Qty < 50 && (PrepParam[i].Article != PrepParam[i+1].Article || PrepParam[i].Line != PrepParam[i+1].Line)) //sampe urutan terakhir grup line & model
                                 {
                                     if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
                                     cnt++;
@@ -167,7 +163,7 @@ namespace AGVDistributionSystem._Services.Services
                                 {
                                     IdInsertedProcessStatus = GAddProcessStatus("PREP");
                                     if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
-                                    cnt = 1;
+                                    cnt = 2;
                                 }
                             }
                             else
@@ -179,8 +175,8 @@ namespace AGVDistributionSystem._Services.Services
                         else
                         {
                             IdInsertedProcessStatus = GAddProcessStatus("PREP");
-                            if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus));
-                            cnt = 1;
+                            if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
+                            cnt = 2;
                         }
                     }
                 }
