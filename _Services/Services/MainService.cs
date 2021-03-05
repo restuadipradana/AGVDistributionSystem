@@ -95,7 +95,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     else
                     {
-                        if(StiParam[i].Article == StiParam[i-1].Article && StiParam[i].Line == StiParam[i-1].Line) // line n artikel sama dengan sebelumnya
+                        if(StiParam[i].Article == StiParam[i-1].Article || StiParam[i].Line == StiParam[i-1].Line) // line n artikel sama dengan sebelumnya
                         {
                             if(cnt>2)
                             {
@@ -104,7 +104,7 @@ namespace AGVDistributionSystem._Services.Services
                                     if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus)) //ga bikin
                                     cnt++;
                                 }
-                                else if (StiParam[i].Qty < 50 && (StiParam[i].Article != StiParam[i+1].Article && StiParam[i].Line != StiParam[i+1].Line)) //sampe urutan terakhir grup line & model
+                                else if (StiParam[i].Qty < 50 && (StiParam[i].Article != StiParam[i+1].Article || StiParam[i].Line != StiParam[i+1].Line)) //sampe urutan terakhir grup line & model
                                 {
                                     if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus)) //ga bikin
                                     cnt++;
