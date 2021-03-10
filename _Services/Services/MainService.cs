@@ -195,7 +195,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     Id = _id,
                     Kind = _kind,
-                    QRCode = "STI;",
+                    QRCode = "STI",
                     Status = "WAITING",
                     GenerateAt = DateTime.Now,
                     GenerateBy = "user login",
@@ -209,7 +209,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     Id = _id,
                     Kind = _kind,
-                    QRCode = "PREP;",
+                    QRCode = "PREP",
                     Status = "WAITING",
                     GenerateAt = DateTime.Now,
                     GenerateBy = "user login",
@@ -232,7 +232,7 @@ namespace AGVDistributionSystem._Services.Services
                 if(_kind == "STI")
                 {
                     var proccStiData = _context.ProcessStatus.Where(x => x.Id == IdProccStat).First();
-                    proccStiData.QRCode = proccStiData.QRCode+data.PO+";";
+                    proccStiData.QRCode = proccStiData.QRCode+";"+data.PO;
                     var newRunningPO = new RunningPO
                     {
                         Id = Guid.NewGuid(),
@@ -250,7 +250,7 @@ namespace AGVDistributionSystem._Services.Services
                 else if (_kind == "PREP")
                 {
                     var proccPrepData = _context.ProcessStatusPreparation.Where(x => x.Id == IdProccStat).First();
-                    proccPrepData.QRCode = proccPrepData.QRCode+data.PO+";";
+                    proccPrepData.QRCode = proccPrepData.QRCode+";"+data.PO;
                     var newRunningPO = new RunningPO
                     {
                         Id = Guid.NewGuid(),
@@ -271,14 +271,14 @@ namespace AGVDistributionSystem._Services.Services
                 if(_kind == "STI")
                 {
                     var proccStiData = _context.ProcessStatus.Where(x => x.Id == IdProccStat).First();
-                    proccStiData.QRCode = proccStiData.QRCode+data.PO+";";
+                    proccStiData.QRCode = proccStiData.QRCode+";"+data.PO;
                     dataSearch.StiStatId = IdProccStat;
                     _context.ProcessStatus.Update(proccStiData);
                 }
                 else if (_kind == "PREP")
                 {
                     var proccPrepData = _context.ProcessStatusPreparation.Where(x => x.Id == IdProccStat).First();
-                    proccPrepData.QRCode = proccPrepData.QRCode+data.PO+";";
+                    proccPrepData.QRCode = proccPrepData.QRCode+";"+data.PO;
                     dataSearch.PrepStatId = IdProccStat;
                     _context.ProcessStatusPreparation.Update(proccPrepData);
                 }

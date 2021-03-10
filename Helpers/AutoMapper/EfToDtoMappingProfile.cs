@@ -9,6 +9,7 @@ namespace AGVDistributionSystem.Helpers.AutoMapper
         public EfToDtoMappingProfile()
         {
             CreateMap<ProcessStatus, ProcessStatusDTO>();
+            CreateMap<ProcessStatusPreparation, ProcessStatusPreparationDTO>();
             CreateMap<Roles, RolesDTO>();
             CreateMap<RunningPO, RunningPODTO>();
             CreateMap<UserRole, UserRoleDTO>();
