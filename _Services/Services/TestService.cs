@@ -95,5 +95,47 @@ namespace AGVDistributionSystem._Services.Services
             return result;
         }
 
+        //percobaan lavgi
+        public async Task<List<ProcessStat>> GetStatusPrepForKanban(int building)
+        {
+            //flag 1 = today scanned view (scan ready menu), 2 = all scanned view (status menu)
+            IQueryable<V_PO2> listPo = null;
+            var prepScannedQr = _context.ProcessStatusPreparation.Where(x => x.ScanAt >= DateTime.Now.Date).OrderByDescending(o => o.ScanAt).AsQueryable(); //cari yang sudah di scan
+            listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();
+            var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+            
+            List<ProcessStat> listStatus = new List<ProcessStat>();
+            foreach (var lqr in prepScannedQr)
+            {
+                var ajg = new ProcessStat();
+                ajg.Id = lqr.Id.ToString();
+                ajg.Kind = lqr.Kind;
+                ajg.QRCode = lqr.QRCode;
+                ajg.Status = lqr.Status;
+                ajg.GenerateAt = lqr.GenerateAt;
+                ajg.GenerateBy = lqr.GenerateBy;
+                ajg.ScanAt = lqr.ScanAt;
+                ajg.ScanBy = lqr.ScanBy;
+                ajg.ScanDeliveryAt = lqr.ScanDeliveryAt;
+                ajg.ScanDeliveryBy = lqr.ScanDeliveryBy;
+                ajg.CreateAt = lqr.CreateAt;
+                ajg.UpdateAt = lqr.UpdateAt;
+                ajg.POlist = ListPo.Where(x => x.PrepStatId == lqr.Id.ToString().ToUpper()).ToArray();
+
+                listStatus.Add(ajg);
+            }
+            return listStatus;
+        }
+
+        public async Task<string> GetOneStr()
+        {
+            DateTime currentTime = DateTime.Now;
+            DateTime x30MinsLater = currentTime.AddMinutes(10);
+            Console.WriteLine(string.Format("{0} {1}", currentTime, x30MinsLater));
+            var dateres = string.Format("{0} {1}", currentTime, x30MinsLater);
+
+            return dateres;
+        }
+
     }
 }

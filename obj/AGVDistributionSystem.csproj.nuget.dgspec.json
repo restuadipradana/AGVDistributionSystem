@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj": {}
+    "e:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj": {}
   },
   "projects": {
-    "E:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj": {
+    "e:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj",
+        "projectUniqueName": "e:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj",
         "projectName": "AGVDistributionSystem",
-        "projectPath": "E:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj",
+        "projectPath": "e:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\AGVDistributionSystem.csproj",
         "packagesPath": "C:\\Users\\restu.adi.TSH\\.nuget\\packages\\",
-        "outputPath": "E:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\obj\\",
+        "outputPath": "e:\\02. Experimental\\AGVDistributionSystem\\AGVDistributionSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\restu.adi.TSH\\AppData\\Roaming\\NuGet\\NuGet.Config",

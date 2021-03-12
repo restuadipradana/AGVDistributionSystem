@@ -233,6 +233,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     var proccStiData = _context.ProcessStatus.Where(x => x.Id == IdProccStat).First();
                     proccStiData.QRCode = proccStiData.QRCode+";"+data.PO;
+                    proccStiData.Cell = data.Line;
                     var newRunningPO = new RunningPO
                     {
                         Id = Guid.NewGuid(),
@@ -251,6 +252,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     var proccPrepData = _context.ProcessStatusPreparation.Where(x => x.Id == IdProccStat).First();
                     proccPrepData.QRCode = proccPrepData.QRCode+";"+data.PO;
+                    proccPrepData.Cell = data.Line;
                     var newRunningPO = new RunningPO
                     {
                         Id = Guid.NewGuid(),

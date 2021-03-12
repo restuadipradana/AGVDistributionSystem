@@ -16,5 +16,6 @@ namespace AGVDistributionSystem.DTO
         public string ScanDeliveryBy {get; set;}
         public DateTime CreateAt {get; set;}
         public DateTime UpdateAt {get; set;}
+        public string Cell {get; set;}
     }
 }

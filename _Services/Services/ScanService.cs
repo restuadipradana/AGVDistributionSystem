@@ -180,8 +180,6 @@ namespace AGVDistributionSystem._Services.Services
         public async Task<List<ProcessStat>> GetStatusPrep(int flag)
         {
             //flag 1 = today scanned view (scan ready menu), 2 = all scanned view (status menu)
-            //percobaan pertama buat status scan ready
-            //Task<StatusView<ProcessStatusDTO>>
             IQueryable<V_PO2> listPo = null;
             var prepScannedQr = _context.ProcessStatusPreparation.Where(x => x.ScanAt >= DateTime.Now.Date).OrderByDescending(o => o.ScanAt).AsQueryable(); //cari yang sudah di scan
             listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();

@@ -40,6 +40,13 @@ namespace AGVDistributionSystem.Controllers
             return Ok(data);
         }
 
+        [HttpGet("date")]
+        public async Task<IActionResult> GetOneStr()
+        {
+            var lists = await _testService.GetOneStr();
+            return Ok(lists);
+        }
+
         // test real case
 
         [HttpPost("po-list")]
