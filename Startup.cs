@@ -45,6 +45,7 @@ namespace AGVDistributionSystem
             services.AddScoped<ITestService, TestService>();
             services.AddScoped<IMainService, MainService>();
             services.AddScoped<IScanService, ScanService>();
+            services.AddScoped<IKanbanService, KanbanService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

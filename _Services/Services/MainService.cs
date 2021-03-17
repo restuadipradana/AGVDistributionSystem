@@ -290,5 +290,81 @@ namespace AGVDistributionSystem._Services.Services
             return true;
         }
 
+        public async Task<DataTablesResponse<ProcessStatusPreparationDTO>> PreparationListSearch(DataTablesRequest ListPrep)
+        {   //show Waiting status list
+            var result = new DataTablesResponse<ProcessStatusPreparationDTO>()
+            {
+                Draw = ListPrep.Draw
+            };
+            IQueryable<ProcessStatusPreparation> query = null;
+            query = _context.ProcessStatusPreparation.Where(x => x.ScanAt == null).AsQueryable();
+            query = query.OrderBy(x => x.GenerateAt);
+            bool isFilterNull = string.IsNullOrEmpty(ListPrep.SearchCriteria.Filter); 
+
+            if(!isFilterNull)
+            {
+                query = query.Where(x => x.QRCode.Contains(ListPrep.SearchCriteria.Filter));
+            }
+            
+            var recordsTotal = query.Count();
+            
+            //no use, order default by line asc, po w/ seq asc
+            if (ListPrep.Order.Count > 0)
+            {
+                var colOrder = ListPrep.Order[0];
+                var colNameOrder = ListPrep.Columns[colOrder.Column].Data;
+                switch(colNameOrder)
+                {
+                    case "cell":
+                        query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
+                        break;
+                }
+            }
+            var FinalArray = await query.ProjectTo<ProcessStatusPreparationDTO>(_configMapper).Skip(ListPrep.Start).Take(ListPrep.Length).ToArrayAsync();
+            result.Data = FinalArray;
+            result.RecordsTotal = recordsTotal;
+            result.RecordsFiltered = recordsTotal;
+
+            return result;
+        }
+
+        public async Task<DataTablesResponse<ProcessStatusDTO>> StitchingListSearch(DataTablesRequest ListSti)
+        {   //show Waiting status list
+            var result = new DataTablesResponse<ProcessStatusDTO>()
+            {
+                Draw = ListSti.Draw
+            };
+            IQueryable<ProcessStatus> query = null;
+            query = _context.ProcessStatus.Where(x => x.ScanAt == null).AsQueryable();
+            query = query.OrderBy(x => x.GenerateAt);
+            bool isFilterNull = string.IsNullOrEmpty(ListSti.SearchCriteria.Filter); 
+
+            if(!isFilterNull)
+            {
+                query = query.Where(x => x.QRCode.Contains(ListSti.SearchCriteria.Filter));
+            }
+            
+            var recordsTotal = query.Count();
+            
+            //no use, order default by line asc, po w/ seq asc
+            if (ListSti.Order.Count > 0)
+            {
+                var colOrder = ListSti.Order[0];
+                var colNameOrder = ListSti.Columns[colOrder.Column].Data;
+                switch(colNameOrder)
+                {
+                    case "cell":
+                        query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
+                        break;
+                }
+            }
+            var FinalArray = await query.ProjectTo<ProcessStatusDTO>(_configMapper).Skip(ListSti.Start).Take(ListSti.Length).ToArrayAsync();
+            result.Data = FinalArray;
+            result.RecordsTotal = recordsTotal;
+            result.RecordsFiltered = recordsTotal;
+
+            return result;
+        }
+
     }
 }

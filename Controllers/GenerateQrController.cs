@@ -33,5 +33,19 @@ namespace AGVDistributionSystem.Controllers
             var res = await _mainService.GenerateQR(CheckedData);
             return Ok();
         }
+
+        [HttpPost("prep-list")]
+        public async Task<IActionResult> PrepSearch([FromBody]DataTablesRequest ListPrep)
+        {
+            var lists = await _mainService.PreparationListSearch(ListPrep);
+            return Ok(lists);
+        }
+
+        [HttpPost("sti-list")]
+        public async Task<IActionResult> StiPOSearch([FromBody]DataTablesRequest ListSti)
+        {
+            var lists = await _mainService.StitchingListSearch(ListSti);
+            return Ok(lists);
+        }
     }
 }
