@@ -47,12 +47,18 @@ namespace AGVDistributionSystem.Controllers
             return Ok(lists);
         }
 
-        // test real case
 
         [HttpPost("po-list")]
         public async Task<IActionResult> ListPOSearch([FromBody]DataTablesRequest ListPOparam)
         {
             var lists = await _testService.POListSearch(ListPOparam);
+            return Ok(lists);
+        }
+
+        [HttpGet("getlst")]
+        public async Task<IActionResult> Pres(string building)
+        {
+            var lists = await _testService.GetKanban(building);
             return Ok(lists);
         }
     }

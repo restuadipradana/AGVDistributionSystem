@@ -95,23 +95,30 @@ namespace AGVDistributionSystem._Services.Services
             return result;
         }
 
-        //percobaan lavgi
-        public async Task<List<ProcessStat>> GetStatusPrepForKanban(int building)
+        //percobaan kanban
+        public async Task<List<ListCell>> GetKanban(string building)
         {
             //flag 1 = today scanned view (scan ready menu), 2 = all scanned view (status menu)
-            IQueryable<V_PO2> listPo = null;
-            var prepScannedQr = _context.ProcessStatusPreparation.Where(x => x.ScanAt >= DateTime.Now.Date).OrderByDescending(o => o.ScanAt).AsQueryable(); //cari yang sudah di scan
-            listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();
-            var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
             
-            List<ProcessStat> listStatus = new List<ProcessStat>();
-            foreach (var lqr in prepScannedQr)
+            var preparationQR = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(building))
+                                .Where(x => x.ScanAt != null).Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                .OrderBy(o => o.ScanAt);
+
+            var stitchingQR = _context.ProcessStatus.Where(x => x.Cell.StartsWith(building))
+                                .Where(x => x.ScanAt != null).Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                .OrderBy(o => o.ScanAt);
+            
+            List<CellStatus> listStatus = new List<CellStatus>();
+            foreach (var lqr in preparationQR)
             {
-                var ajg = new ProcessStat();
+                var poprep = _context.V_PO2.Where(x => x.PrepStatId == lqr.Id).AsQueryable();
+                var poprepdto = await poprep.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+                var ajg = new CellStatus();
                 ajg.Id = lqr.Id.ToString();
                 ajg.Kind = lqr.Kind;
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;
@@ -120,11 +127,55 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.ScanDeliveryBy = lqr.ScanDeliveryBy;
                 ajg.CreateAt = lqr.CreateAt;
                 ajg.UpdateAt = lqr.UpdateAt;
-                ajg.POlist = ListPo.Where(x => x.PrepStatId == lqr.Id.ToString().ToUpper()).ToArray();
+                ajg.POlist = poprepdto;
 
                 listStatus.Add(ajg);
             }
-            return listStatus;
+
+            foreach (var lqr in stitchingQR)
+            {
+                var posti = _context.V_PO2.Where(x => x.StiStatId == lqr.Id).AsQueryable();
+                var postidto = await posti.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+                var ajg = new CellStatus();
+                ajg.Id = lqr.Id.ToString();
+                ajg.Kind = lqr.Kind;
+                ajg.QRCode = lqr.QRCode;
+                ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
+                ajg.GenerateAt = lqr.GenerateAt;
+                ajg.GenerateBy = lqr.GenerateBy;
+                ajg.ScanAt = lqr.ScanAt;
+                ajg.ScanBy = lqr.ScanBy;
+                ajg.ScanDeliveryAt = lqr.ScanDeliveryAt;
+                ajg.ScanDeliveryBy = lqr.ScanDeliveryBy;
+                ajg.CreateAt = lqr.CreateAt;
+                ajg.UpdateAt = lqr.UpdateAt;
+                ajg.POlist = postidto;
+
+                listStatus.Add(ajg);
+            }
+
+            List<ListCell> listCell = new List<ListCell>();
+            var newListCell = new ListCell();
+            newListCell.Cell_1 = listStatus.Where(x => x.Cell.StartsWith(building+"1")).ToArray();
+            newListCell.Cell_2 = listStatus.Where(x => x.Cell.StartsWith(building+"2")).ToArray();
+            newListCell.Cell_3 = listStatus.Where(x => x.Cell.StartsWith(building+"3")).ToArray();
+            newListCell.Cell_4 = listStatus.Where(x => x.Cell.StartsWith(building+"4")).ToArray();
+            newListCell.Cell_5 = listStatus.Where(x => x.Cell.StartsWith(building+"5")).ToArray();
+            newListCell.Cell_6 = listStatus.Where(x => x.Cell.StartsWith(building+"6")).ToArray();
+            newListCell.Cell_7 = listStatus.Where(x => x.Cell.StartsWith(building+"7")).ToArray();
+            newListCell.Cell_8 = listStatus.Where(x => x.Cell.StartsWith(building+"8")).ToArray();
+            newListCell.Cell_9 = listStatus.Where(x => x.Cell.StartsWith(building+"9")).ToArray();
+            newListCell.Cell_A = listStatus.Where(x => x.Cell.StartsWith(building+"A")).ToArray();
+            newListCell.Cell_B = listStatus.Where(x => x.Cell.StartsWith(building+"B")).ToArray();
+            newListCell.Cell_C = listStatus.Where(x => x.Cell.StartsWith(building+"C")).ToArray();
+            newListCell.Cell_D = listStatus.Where(x => x.Cell.StartsWith(building+"D")).ToArray();
+            newListCell.Cell_E = listStatus.Where(x => x.Cell.StartsWith(building+"E")).ToArray();
+
+            listCell.Add(newListCell);
+
+
+            return listCell;
         }
 
         public async Task<string> GetOneStr()
@@ -136,6 +187,11 @@ namespace AGVDistributionSystem._Services.Services
 
             return dateres;
         }
+
+        //public async Task<List<KanbanData>> GetKanbanDatas(int building)
+        //{
+        //    
+        //}
 
     }
 }

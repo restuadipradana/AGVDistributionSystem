@@ -162,6 +162,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.Kind = lqr.Kind;
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;
@@ -193,6 +194,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.Kind = lqr.Kind;
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;

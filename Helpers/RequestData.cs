@@ -19,13 +19,14 @@ namespace AGVDistributionSystem.Helpers
         public T[] ListQr { get; set; }
     }
 
-//percobaan
+//for show status at scam ready
     public class ProcessStat
     {
         public string Id {get; set;}
         public string Kind {get; set;}
         public string QRCode {get; set;}
         public string Status {get; set;}
+        public string Cell {get; set;}
         public DateTime? GenerateAt {get; set;}
         public string GenerateBy {get; set;}
         public DateTime? ScanAt {get; set;}

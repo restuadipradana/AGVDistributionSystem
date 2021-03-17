@@ -13,5 +13,6 @@ namespace AGVDistributionSystem._Services.Interfaces
          Task<VW_UserAccDTO> GetUserAsync(string account);
          Task<DataTablesResponse<V_PO2DTO>> POListSearch(DataTablesRequest ListPO);
          Task<string> GetOneStr();
+         Task<List<ListCell>> GetKanban(string building);
     }
 }
