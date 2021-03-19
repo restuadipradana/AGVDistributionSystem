@@ -6,14 +6,14 @@ using AGVDistributionSystem.Models;
 
 namespace AGVDistributionSystem.Helpers
 {
-    public class RequestData
+    public class RequestData //used for send checkbox generate
     {
         public V_PO2DTO[] Prep { get; set; }
 
         public V_PO2DTO[] Sti { get; set; }
     }
 
-    public class StatusView<T>
+    public class StatusView<T> //nouse
     {
         public V_PO2DTO[] ListPo { get; set; }
         public T[] ListQr { get; set; }

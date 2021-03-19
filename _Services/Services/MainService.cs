@@ -274,6 +274,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     var proccStiData = _context.ProcessStatus.Where(x => x.Id == IdProccStat).First();
                     proccStiData.QRCode = proccStiData.QRCode+";"+data.PO;
+                    proccStiData.Cell = data.Line;
                     dataSearch.StiStatId = IdProccStat;
                     _context.ProcessStatus.Update(proccStiData);
                 }
@@ -281,6 +282,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     var proccPrepData = _context.ProcessStatusPreparation.Where(x => x.Id == IdProccStat).First();
                     proccPrepData.QRCode = proccPrepData.QRCode+";"+data.PO;
+                    proccPrepData.Cell = data.Line;
                     dataSearch.PrepStatId = IdProccStat;
                     _context.ProcessStatusPreparation.Update(proccPrepData);
                 }
@@ -290,14 +292,40 @@ namespace AGVDistributionSystem._Services.Services
             return true;
         }
 
-        public async Task<DataTablesResponse<ProcessStatusPreparationDTO>> PreparationListSearch(DataTablesRequest ListPrep)
+        public async Task<DataTablesResponse<ProcessStat>> PreparationListSearch(DataTablesRequest ListPrep)
         {   //show Waiting status list
-            var result = new DataTablesResponse<ProcessStatusPreparationDTO>()
+            //---------
+            IQueryable<V_PO2> listPo = null;
+            var prepWaitingStat = _context.ProcessStatusPreparation.Where(x => x.ScanAt == null).AsQueryable(); //cari yang sudah di scan
+            listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();
+            var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+            List<ProcessStat> listStatus = new List<ProcessStat>();
+            foreach (var lqr in prepWaitingStat)
+            {
+                var ajg = new ProcessStat();
+                ajg.Id = lqr.Id.ToString();
+                ajg.Kind = lqr.Kind;
+                ajg.QRCode = lqr.QRCode;
+                ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
+                ajg.GenerateAt = lqr.GenerateAt;
+                ajg.GenerateBy = lqr.GenerateBy;
+                ajg.ScanAt = lqr.ScanAt;
+                ajg.ScanBy = lqr.ScanBy;
+                ajg.ScanDeliveryAt = lqr.ScanDeliveryAt;
+                ajg.ScanDeliveryBy = lqr.ScanDeliveryBy;
+                ajg.CreateAt = lqr.CreateAt;
+                ajg.UpdateAt = lqr.UpdateAt;
+                ajg.POlist = ListPo.Where(x => x.PrepStatId == lqr.Id.ToString().ToUpper()).ToArray();
+
+                listStatus.Add(ajg);
+            }
+            //=======
+            var result = new DataTablesResponse<ProcessStat>()
             {
                 Draw = ListPrep.Draw
             };
-            IQueryable<ProcessStatusPreparation> query = null;
-            query = _context.ProcessStatusPreparation.Where(x => x.ScanAt == null).AsQueryable();
+            IQueryable<ProcessStat> query = listStatus.AsQueryable();
             query = query.OrderBy(x => x.GenerateAt);
             bool isFilterNull = string.IsNullOrEmpty(ListPrep.SearchCriteria.Filter); 
 
@@ -320,7 +348,7 @@ namespace AGVDistributionSystem._Services.Services
                         break;
                 }
             }
-            var FinalArray = await query.ProjectTo<ProcessStatusPreparationDTO>(_configMapper).Skip(ListPrep.Start).Take(ListPrep.Length).ToArrayAsync();
+            var FinalArray = query.Skip(ListPrep.Start).Take(ListPrep.Length).ToArray();
             result.Data = FinalArray;
             result.RecordsTotal = recordsTotal;
             result.RecordsFiltered = recordsTotal;
@@ -328,20 +356,46 @@ namespace AGVDistributionSystem._Services.Services
             return result;
         }
 
-        public async Task<DataTablesResponse<ProcessStatusDTO>> StitchingListSearch(DataTablesRequest ListSti)
+        public async Task<DataTablesResponse<ProcessStat>> StitchingListSearch(DataTablesRequest ListSti)
         {   //show Waiting status list
-            var result = new DataTablesResponse<ProcessStatusDTO>()
+            //---------
+            IQueryable<V_PO2> listPo = null;
+            var stiWaitingStat = _context.ProcessStatus.Where(x => x.ScanAt == null).AsQueryable(); //cari yang sudah di scan
+            listPo = _context.V_PO2.Where(x => x.StiStatId != null).AsQueryable();
+            var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+            List<ProcessStat> listStatus = new List<ProcessStat>();
+            foreach (var lqr in stiWaitingStat)
+            {
+                var ajg = new ProcessStat();
+                ajg.Id = lqr.Id.ToString();
+                ajg.Kind = lqr.Kind;
+                ajg.QRCode = lqr.QRCode;
+                ajg.Status = lqr.Status;
+                ajg.Cell = lqr.Cell;
+                ajg.GenerateAt = lqr.GenerateAt;
+                ajg.GenerateBy = lqr.GenerateBy;
+                ajg.ScanAt = lqr.ScanAt;
+                ajg.ScanBy = lqr.ScanBy;
+                ajg.ScanDeliveryAt = lqr.ScanDeliveryAt;
+                ajg.ScanDeliveryBy = lqr.ScanDeliveryBy;
+                ajg.CreateAt = lqr.CreateAt;
+                ajg.UpdateAt = lqr.UpdateAt;
+                ajg.POlist = ListPo.Where(x => x.StiStatId == lqr.Id.ToString().ToUpper()).ToArray();
+
+                listStatus.Add(ajg);
+            }
+            //=======
+            var result = new DataTablesResponse<ProcessStat>()
             {
                 Draw = ListSti.Draw
             };
-            IQueryable<ProcessStatus> query = null;
-            query = _context.ProcessStatus.Where(x => x.ScanAt == null).AsQueryable();
+            IQueryable<ProcessStat> query = listStatus.AsQueryable();
             query = query.OrderBy(x => x.GenerateAt);
             bool isFilterNull = string.IsNullOrEmpty(ListSti.SearchCriteria.Filter); 
 
             if(!isFilterNull)
             {
-                query = query.Where(x => x.QRCode.Contains(ListSti.SearchCriteria.Filter));
+                query = query.Where(x => x.Cell.Contains(ListSti.SearchCriteria.Filter));
             }
             
             var recordsTotal = query.Count();
@@ -358,12 +412,56 @@ namespace AGVDistributionSystem._Services.Services
                         break;
                 }
             }
-            var FinalArray = await query.ProjectTo<ProcessStatusDTO>(_configMapper).Skip(ListSti.Start).Take(ListSti.Length).ToArrayAsync();
+            var FinalArray = query.Skip(ListSti.Start).Take(ListSti.Length).ToArray();
             result.Data = FinalArray;
             result.RecordsTotal = recordsTotal;
             result.RecordsFiltered = recordsTotal;
 
             return result;
+        }
+
+        public async Task<bool> PrepQRDelete(ProcessStat prepQRdata)   
+        {
+            Guid? id = Guid.Empty;
+            var listpo = prepQRdata.POlist;
+            foreach (var data in listpo)
+            {
+                var runningPOs = _context.RunningPO.Where(x => x.Line == data.Line && x.PO == data.PO).SingleOrDefault();
+                id = runningPOs.PrepStatId;
+                runningPOs.PrepStatId = null;
+                _context.RunningPO.Update(runningPOs);
+                await _context.SaveChangesAsync();
+            }
+            var findprocessstaus = _context.ProcessStatusPreparation.Find(id, "PREP"); // cari ini sebelum updae ke null
+            if (findprocessstaus != null)
+            {
+                _context.ProcessStatusPreparation.Remove(findprocessstaus);
+                await _context.SaveChangesAsync();
+            }
+            
+            return true;
+        }
+
+        public async Task<bool> StiQRDelete(ProcessStat stiQRdata)   
+        {
+            Guid? id = Guid.Empty;
+            var listpo = stiQRdata.POlist;
+            foreach (var data in listpo)
+            {
+                var runningPOs = _context.RunningPO.Where(x => x.Line == data.Line && x.PO == data.PO).SingleOrDefault();
+                id = runningPOs.StiStatId;
+                runningPOs.StiStatId = null;
+                _context.RunningPO.Update(runningPOs);
+                await _context.SaveChangesAsync();
+            }
+            var findprocessstaus = _context.ProcessStatus.Find(id, "STI"); // cari ini sebelum updae ke null
+            if (findprocessstaus != null)
+            {
+                _context.ProcessStatus.Remove(findprocessstaus);
+                await _context.SaveChangesAsync();
+            }
+            
+            return true;
         }
 
     }

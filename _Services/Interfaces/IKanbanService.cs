@@ -10,5 +10,6 @@ namespace AGVDistributionSystem._Services.Interfaces
     public interface IKanbanService
     {
         Task<List<ListCell>> GetKanbanCell(string building);
+        Task<List<KanbanBuilding>> GetKanbanBuilding();
     }
 }

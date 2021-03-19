@@ -42,9 +42,13 @@ namespace AGVDistributionSystem.Helpers
         public CellStatus[] Cell_E {get; set;}
     }
 
-    public class KanbanData
+    public class KanbanBuilding
     {
-        public ListCell[] Preparation {get; set;}
-        public ListCell[] Stitching {get; set;}
+        public int BuildingNo {get; set;}
+        public string BuildingName {get; set;}
+        public int Ready {get; set;}
+        public int Delivery {get; set;}
+        public int Finished {get; set;}
+        public int Prepared {get; set;}
     }
 }

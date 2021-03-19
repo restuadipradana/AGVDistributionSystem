@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -101,11 +102,65 @@ namespace AGVDistributionSystem._Services.Services
             newListCell.Cell_C = listStatus.Where(x => x.Cell.StartsWith(building+"C")).ToArray();
             newListCell.Cell_D = listStatus.Where(x => x.Cell.StartsWith(building+"D")).ToArray();
             newListCell.Cell_E = listStatus.Where(x => x.Cell.StartsWith(building+"E")).ToArray();
-
             listCell.Add(newListCell);
-
-
             return listCell;
+        }
+
+        public async Task<List<KanbanBuilding>> GetKanbanBuilding()
+        {
+            
+            List<KanbanBuilding> kanbanBuildings = new List<KanbanBuilding>();
+            for(int i = 1; i<=6; i++)
+            {
+                var decascii = Convert.ToByte(i+64);
+                string charascii = Encoding.ASCII.GetString(new byte[]{ decascii });
+                string buildingName = charascii + " BUILDING";
+                var endofday = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
+
+                var preparationStatusReady = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday)
+                                    .OrderBy(o => o.ScanAt);
+
+                var stitchingStatusReady = _context.ProcessStatus.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday)
+                                    .OrderBy(o => o.ScanAt);  
+                                      
+                var preparationStatusDelivery = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.Status == "DELIVERY").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                    .OrderBy(o => o.ScanAt);
+
+                var stitchingStatusDelivery = _context.ProcessStatus.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.Status == "DELIVERY").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                    .OrderBy(o => o.ScanAt);
+
+                // sepasang kueri ini ambil semua yang berstatus delivery dihari itu
+                var preparationStatusFinished = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.ScanDeliveryAt >= DateTime.Today && x.ScanDeliveryAt <= endofday)
+                                    .OrderBy(o => o.ScanDeliveryAt);
+
+                var stitchingStatusFinished = _context.ProcessStatus.Where(x => x.Cell.StartsWith(i.ToString()))
+                                    .Where(x => x.ScanDeliveryAt >= DateTime.Today && x.ScanDeliveryAt <= endofday)
+                                    .OrderBy(o => o.ScanDeliveryAt);
+
+
+                
+                var ReadyTot = preparationStatusReady.Count() + stitchingStatusReady.Count();
+                var DeliveryTot = preparationStatusDelivery.Count() + stitchingStatusDelivery.Count();
+                var HasDeliveryTot = preparationStatusFinished.Count() + stitchingStatusFinished.Count();
+
+                var kbd = new KanbanBuilding
+                {
+                    BuildingNo = i,
+                    BuildingName = buildingName,
+                    Delivery = DeliveryTot,
+                    Ready = ReadyTot,
+                    Finished = HasDeliveryTot - DeliveryTot,
+                    Prepared = 84 - (DeliveryTot + ReadyTot)
+                };
+                kanbanBuildings.Add(kbd);
+            }
+
+            return kanbanBuildings;
         }
     }
 }

@@ -10,7 +10,9 @@ namespace AGVDistributionSystem._Services.Interfaces
     {
         Task<DataTablesResponse<V_PO2DTO>> POListSearch(DataTablesRequest ListPO);
         Task<bool> GenerateQR(RequestData data);
-        Task<DataTablesResponse<ProcessStatusPreparationDTO>> PreparationListSearch(DataTablesRequest ListPrep);
-        Task<DataTablesResponse<ProcessStatusDTO>> StitchingListSearch(DataTablesRequest ListSti);
+        Task<DataTablesResponse<ProcessStat>> PreparationListSearch(DataTablesRequest ListPrep);
+        Task<DataTablesResponse<ProcessStat>> StitchingListSearch(DataTablesRequest ListSti);
+        Task<bool> PrepQRDelete(ProcessStat prepQRdata);
+        Task<bool> StiQRDelete(ProcessStat stiQRdata);
     }
 }

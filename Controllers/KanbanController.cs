@@ -26,5 +26,13 @@ namespace AGVDistributionSystem.Controllers
             return Ok(lists);
 
         }
+
+        [HttpGet("building-kanban")]
+        public async Task<IActionResult> GetCBuildingKanban()
+        {
+            var lists = await _kanbanService.GetKanbanBuilding();
+            return Ok(lists);
+
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -42,10 +43,34 @@ namespace AGVDistributionSystem.Controllers
         }
 
         [HttpPost("sti-list")]
-        public async Task<IActionResult> StiPOSearch([FromBody]DataTablesRequest ListSti)
+        public async Task<IActionResult> StiSearch([FromBody]DataTablesRequest ListSti)
         {
             var lists = await _mainService.StitchingListSearch(ListSti);
             return Ok(lists);
+        }
+
+        [HttpPost("prep-delete")]
+        public async Task<IActionResult> PrepDelete(ProcessStat prepQRdata)
+        {
+
+            if (await _mainService.PrepQRDelete(prepQRdata))
+            {
+                return NoContent();
+            }
+            
+            throw new Exception("Deleting failed on save");
+        }
+
+        [HttpPost("sti-delete")]
+        public async Task<IActionResult> StiDelete(ProcessStat stiQRdata)
+        {
+
+            if (await _mainService.StiQRDelete(stiQRdata))
+            {
+                return NoContent();
+            }
+            
+            throw new Exception("Deleting failed on save");
         }
     }
 }
