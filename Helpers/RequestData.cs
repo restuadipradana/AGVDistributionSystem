@@ -19,7 +19,7 @@ namespace AGVDistributionSystem.Helpers
         public T[] ListQr { get; set; }
     }
 
-//for show status at scam ready
+//for show status at scam ready also kanban
     public class ProcessStat
     {
         public string Id {get; set;}

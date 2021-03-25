@@ -39,12 +39,12 @@ namespace AGVDistributionSystem._Services.Services
                                 .Where(x => x.ScanAt != null).Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
                                 .OrderBy(o => o.ScanAt);
             
-            List<CellStatus> listStatus = new List<CellStatus>();
+            List<ProcessStat> listStatus = new List<ProcessStat>();
             foreach (var lqr in preparationQR)
             {
                 var poprep = _context.V_PO2.Where(x => x.PrepStatId == lqr.Id).AsQueryable();
                 var poprepdto = await poprep.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
-                var ajg = new CellStatus();
+                var ajg = new ProcessStat();
                 ajg.Id = lqr.Id.ToString();
                 ajg.Kind = lqr.Kind;
                 ajg.QRCode = lqr.QRCode;
@@ -67,7 +67,7 @@ namespace AGVDistributionSystem._Services.Services
             {
                 var posti = _context.V_PO2.Where(x => x.StiStatId == lqr.Id).AsQueryable();
                 var postidto = await posti.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
-                var ajg = new CellStatus();
+                var ajg = new ProcessStat();
                 ajg.Id = lqr.Id.ToString();
                 ajg.Kind = lqr.Kind;
                 ajg.QRCode = lqr.QRCode;

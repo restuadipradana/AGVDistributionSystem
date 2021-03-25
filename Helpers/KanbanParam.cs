@@ -6,7 +6,7 @@ using AGVDistributionSystem.Models;
 
 namespace AGVDistributionSystem.Helpers
 {
-    public class CellStatus //process status
+    public class CellStatus //process status (deprecated)
     {
         public string Id {get; set;}
         public string Kind {get; set;}
@@ -26,20 +26,20 @@ namespace AGVDistributionSystem.Helpers
 
     public class ListCell
     {
-        public CellStatus[] Cell_1 {get; set;}
-        public CellStatus[] Cell_2 {get; set;}
-        public CellStatus[] Cell_3 {get; set;}
-        public CellStatus[] Cell_4 {get; set;}
-        public CellStatus[] Cell_5 {get; set;}
-        public CellStatus[] Cell_6 {get; set;}
-        public CellStatus[] Cell_7 {get; set;}
-        public CellStatus[] Cell_8 {get; set;}
-        public CellStatus[] Cell_9 {get; set;}
-        public CellStatus[] Cell_A {get; set;}
-        public CellStatus[] Cell_B {get; set;}
-        public CellStatus[] Cell_C {get; set;}
-        public CellStatus[] Cell_D {get; set;}
-        public CellStatus[] Cell_E {get; set;}
+        public ProcessStat[] Cell_1 {get; set;}
+        public ProcessStat[] Cell_2 {get; set;}
+        public ProcessStat[] Cell_3 {get; set;}
+        public ProcessStat[] Cell_4 {get; set;}
+        public ProcessStat[] Cell_5 {get; set;}
+        public ProcessStat[] Cell_6 {get; set;}
+        public ProcessStat[] Cell_7 {get; set;}
+        public ProcessStat[] Cell_8 {get; set;}
+        public ProcessStat[] Cell_9 {get; set;}
+        public ProcessStat[] Cell_A {get; set;}
+        public ProcessStat[] Cell_B {get; set;}
+        public ProcessStat[] Cell_C {get; set;}
+        public ProcessStat[] Cell_D {get; set;}
+        public ProcessStat[] Cell_E {get; set;}
     }
 
     public class KanbanBuilding
