@@ -63,3 +63,9 @@ E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcor
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcoreapp3.1\AGVDistributionSystem.csproj.CoreCompileInputs.cache
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcoreapp3.1\scopedcss\bundle\AGVDistributionSystem.styles.css
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcoreapp3.1\AGVDistributionSystem.genruntimeconfig.cache
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcoreapp3.1\AGVDistributionSystem.MvcApplicationPartsAssemblyInfo.cs

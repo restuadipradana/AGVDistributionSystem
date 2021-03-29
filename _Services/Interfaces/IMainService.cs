@@ -9,7 +9,7 @@ namespace AGVDistributionSystem._Services.Interfaces
     public interface IMainService
     {
         Task<DataTablesResponse<V_PO2DTO>> POListSearch(DataTablesRequest ListPO);
-        Task<bool> GenerateQR(RequestData data);
+        Task<bool> GenerateQR(RequestData data, string username);
         Task<DataTablesResponse<ProcessStat>> PreparationListSearch(DataTablesRequest ListPrep);
         Task<DataTablesResponse<ProcessStat>> StitchingListSearch(DataTablesRequest ListSti);
         Task<bool> PrepQRDelete(ProcessStat prepQRdata);

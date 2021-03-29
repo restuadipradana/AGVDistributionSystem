@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using AGVDistributionSystem._Services.Interfaces;
 using AGVDistributionSystem.Models;
 using AGVDistributionSystem.DTO;
@@ -21,19 +23,27 @@ namespace AGVDistributionSystem.Controllers
             _scanService = scanService;
         }
 
+        private string GetUserClaim() {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        }
+
+        [Authorize]
         [HttpGet("scanready")]
         public async Task<IActionResult> ScanReady(string scanQr)
         {
+            var username = GetUserClaim();
             string[] rawdata = scanQr.Split(';');
-            var data = await _scanService.ScanReady(rawdata[0], scanQr);
+            var data = await _scanService.ScanReady(rawdata[0], scanQr, username);
             return Ok(data);
         }
 
+        [Authorize]
         [HttpGet("scandelivery")]
         public async Task<IActionResult> ScanDelivery(string scanQr)
         {
+            var username = GetUserClaim();
             string[] rawdata = scanQr.Split(';');
-            var data = await _scanService.ScanDelivery(rawdata[0], scanQr);
+            var data = await _scanService.ScanDelivery(rawdata[0], scanQr, username);
             return Ok(data);
         }
 

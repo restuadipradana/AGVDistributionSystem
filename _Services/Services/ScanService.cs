@@ -25,7 +25,7 @@ namespace AGVDistributionSystem._Services.Services
             _mapper = mapper;
             _configMapper = configMapper;
         }
-        public async Task<object> ScanReady(string processKind, string scanQr)
+        public async Task<object> ScanReady(string processKind, string scanQr, string username)
         {
             if (processKind == "STI")
             {
@@ -37,7 +37,7 @@ namespace AGVDistributionSystem._Services.Services
                         return "this QR already scanned";
                     }
                     qrSti.ScanAt = DateTime.Now;
-                    qrSti.ScanBy = "user admin";
+                    qrSti.ScanBy = username;
                     qrSti.Status = "READY";
                     qrSti.UpdateAt = DateTime.Now;
                     _context.ProcessStatus.Update(qrSti);
@@ -59,7 +59,7 @@ namespace AGVDistributionSystem._Services.Services
                         return "this QR already scanned";
                     }
                     qrPrep.ScanAt = DateTime.Now;
-                    qrPrep.ScanBy = "user admin";
+                    qrPrep.ScanBy = username;
                     qrPrep.Status = "READY";
                     qrPrep.UpdateAt = DateTime.Now;
                     _context.ProcessStatusPreparation.Update(qrPrep);
@@ -77,7 +77,7 @@ namespace AGVDistributionSystem._Services.Services
             }
         }
 
-        public async Task<object> ScanDelivery(string processKind, string scanQr)
+        public async Task<object> ScanDelivery(string processKind, string scanQr, string username)
         {
             if (processKind == "STI")
             {
@@ -89,7 +89,7 @@ namespace AGVDistributionSystem._Services.Services
                         return "this QR already scanned";
                     }
                     qrSti.ScanDeliveryAt = DateTime.Now;
-                    qrSti.ScanDeliveryBy = "user agv";
+                    qrSti.ScanDeliveryBy = username;
                     qrSti.Status = "DELIVERY";
                     qrSti.UpdateAt = DateTime.Now;
                     _context.ProcessStatus.Update(qrSti);
@@ -111,7 +111,7 @@ namespace AGVDistributionSystem._Services.Services
                         return "this QR already scanned";
                     }
                     qrPrep.ScanDeliveryAt = DateTime.Now;
-                    qrPrep.ScanDeliveryBy = "user agv";
+                    qrPrep.ScanDeliveryBy = username;
                     qrPrep.Status = "DELIVERY";
                     qrPrep.UpdateAt = DateTime.Now;
                     _context.ProcessStatusPreparation.Update(qrPrep);

@@ -76,7 +76,7 @@ namespace AGVDistributionSystem._Services.Services
             return result;
         }
 
-        public async Task<bool> GenerateQR(RequestData data)
+        public async Task<bool> GenerateQR(RequestData data, string username)
         {
             var PrepParam = data.Prep.ToList();
             var StiParam = data.Sti.ToList();
@@ -89,7 +89,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     if (i==0)
                     {   //bikin qr baru
-                        IdInsertedProcessStatus = GAddProcessStatus("STI");
+                        IdInsertedProcessStatus = GAddProcessStatus("STI", username);
                         if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
                         cnt++;
                     }
@@ -111,7 +111,7 @@ namespace AGVDistributionSystem._Services.Services
                                 }
                                 else //bikin qr baru
                                 {
-                                    IdInsertedProcessStatus = GAddProcessStatus("STI");
+                                    IdInsertedProcessStatus = GAddProcessStatus("STI", username);
                                     if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
                                     cnt = 2;
                                 }
@@ -124,7 +124,7 @@ namespace AGVDistributionSystem._Services.Services
                         }
                         else
                         {
-                            IdInsertedProcessStatus = GAddProcessStatus("STI");
+                            IdInsertedProcessStatus = GAddProcessStatus("STI", username);
                             if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus))
                             cnt = 2;
                         }
@@ -139,7 +139,7 @@ namespace AGVDistributionSystem._Services.Services
                 {
                     if (i==0)
                     {
-                        IdInsertedProcessStatus = GAddProcessStatus("PREP");
+                        IdInsertedProcessStatus = GAddProcessStatus("PREP", username);
                         if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
                         cnt++;
                     }
@@ -161,7 +161,7 @@ namespace AGVDistributionSystem._Services.Services
                                 }
                                 else //bikin qr baru
                                 {
-                                    IdInsertedProcessStatus = GAddProcessStatus("PREP");
+                                    IdInsertedProcessStatus = GAddProcessStatus("PREP", username);
                                     if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
                                     cnt = 2;
                                 }
@@ -174,7 +174,7 @@ namespace AGVDistributionSystem._Services.Services
                         }
                         else
                         {
-                            IdInsertedProcessStatus = GAddProcessStatus("PREP");
+                            IdInsertedProcessStatus = GAddProcessStatus("PREP", username);
                             if (await GAddRunningPO(PrepParam[i], "PREP", IdInsertedProcessStatus))
                             cnt = 2;
                         }
@@ -186,7 +186,7 @@ namespace AGVDistributionSystem._Services.Services
         }
 
         //g for generateqr func
-        public Guid GAddProcessStatus(string _kind)
+        public Guid GAddProcessStatus(string _kind, string username)
         {
             var _id = Guid.NewGuid();
             if(_kind == "STI")
@@ -198,7 +198,7 @@ namespace AGVDistributionSystem._Services.Services
                     QRCode = "STI",
                     Status = "WAITING",
                     GenerateAt = DateTime.Now,
-                    GenerateBy = "user login",
+                    GenerateBy = username,
                     CreateAt = DateTime.Now
                 };
                 _context.ProcessStatus.Add(procStiStat);
@@ -212,7 +212,7 @@ namespace AGVDistributionSystem._Services.Services
                     QRCode = "PREP",
                     Status = "WAITING",
                     GenerateAt = DateTime.Now,
-                    GenerateBy = "user login",
+                    GenerateBy = username,
                     CreateAt = DateTime.Now
                 };
                 _context.ProcessStatusPreparation.Add(procPrepStat);

@@ -18,9 +18,9 @@ namespace AGVDistributionSystem.Data
         {
             modelBuilder.Entity<ProcessStatus>().HasKey(x => new { x.Id, x.Kind });
             modelBuilder.Entity<ProcessStatusPreparation>().HasKey(x => new { x.Id, x.Kind });
-            modelBuilder.Entity<Roles>().HasKey(x => new { x.Id });
+            modelBuilder.Entity<Roles>().HasKey(x => new { x.Role });
             modelBuilder.Entity<RunningPO>().HasKey(x => new { x.Id });
-            modelBuilder.Entity<UserRole>().HasNoKey();
+            modelBuilder.Entity<UserRole>().HasKey(x => new {x.Account, x.Role });
             modelBuilder.Entity<V_PO2>().HasNoKey();
             modelBuilder.Entity<VW_MES_Org>().HasNoKey();
             modelBuilder.Entity<VW_UserAcc>().HasNoKey();

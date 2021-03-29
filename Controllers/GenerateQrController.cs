@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AGVDistributionSystem._Services.Interfaces;
 using AGVDistributionSystem.Models;
@@ -12,12 +14,17 @@ namespace AGVDistributionSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    
     public class GenerateQrController : ControllerBase
     {
         private readonly IMainService _mainService;
         public GenerateQrController(IMainService mainService)
         {
             _mainService = mainService;
+        }
+
+        private string GetUserClaim() {
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         [HttpPost("po-list")]
@@ -27,11 +34,13 @@ namespace AGVDistributionSystem.Controllers
             return Ok(lists);
         }
 
+        [Authorize]
         [HttpPost("generate")]
         public async Task<IActionResult> GetSeletedData(JToken jtk)
         {        
+            var username = GetUserClaim();
             var CheckedData = jtk.Value<JObject>("dataTablesParam").ToObject<RequestData>();   
-            var res = await _mainService.GenerateQR(CheckedData);
+            var res = await _mainService.GenerateQR(CheckedData, username);
             return Ok();
         }
 
