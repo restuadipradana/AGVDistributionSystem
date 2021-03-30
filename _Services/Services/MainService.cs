@@ -95,7 +95,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     else
                     {
-                        if(StiParam[i].Article == StiParam[i-1].Article || StiParam[i].Line == StiParam[i-1].Line) // line n artikel sama dengan sebelumnya
+                        if(StiParam[i].Article == StiParam[i-1].Article && StiParam[i].Line == StiParam[i-1].Line) // line n artikel sama dengan sebelumnya
                         {
                             if(cnt>2)
                             {
@@ -105,7 +105,7 @@ namespace AGVDistributionSystem._Services.Services
                                     cnt++;
                                 }
                                 else if (StiParam[i].Qty < 50 && (StiParam[i].Article != StiParam[i+1].Article || StiParam[i].Line != StiParam[i+1].Line)) //sampe urutan terakhir grup line & model
-                                {
+                                {   //jumlah dibawah 50, kalo seq dibawah udah beda art atau linne, ikut combine keatas
                                     if (await GAddRunningPO(StiParam[i], "STI", IdInsertedProcessStatus)) //ga bikin
                                     cnt++;
                                 }
@@ -145,7 +145,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     else
                     {
-                        if(PrepParam[i].Article == PrepParam[i-1].Article || PrepParam[i].Line == PrepParam[i-1].Line) // line n artikel sama dengan sebelumnya
+                        if(PrepParam[i].Article == PrepParam[i-1].Article && PrepParam[i].Line == PrepParam[i-1].Line) // line n artikel sama dengan sebelumnya
                         {
                             if(cnt>2)
                             {

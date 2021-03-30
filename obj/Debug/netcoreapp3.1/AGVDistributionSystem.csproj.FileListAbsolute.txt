@@ -69,3 +69,5 @@ E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcor
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\obj\Debug\netcoreapp3.1\AGVDistributionSystem.MvcApplicationPartsAssemblyInfo.cs
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\EPPlus.dll
+E:\02. Experimental\AGVDistributionSystem\AGVDistributionSystem\bin\Debug\netcoreapp3.1\System.Xml.XPath.XmlDocument.dll

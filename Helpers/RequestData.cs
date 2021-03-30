@@ -13,6 +13,11 @@ namespace AGVDistributionSystem.Helpers
         public V_PO2DTO[] Sti { get; set; }
     }
 
+    public class RequestDataQR //used for send checkbox generate
+    {
+        public ProcessStat[] SelectedData { get; set; }
+    }
+
     public class StatusView<T> //nouse
     {
         public V_PO2DTO[] ListPo { get; set; }
@@ -36,5 +41,13 @@ namespace AGVDistributionSystem.Helpers
         public DateTime CreateAt {get; set;}
         public DateTime? UpdateAt {get; set;}
         public V_PO2DTO[] POlist {get; set;}
+        public int TotQty {get; set;}
+        public bool IsCheck //{get; set;}
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }
