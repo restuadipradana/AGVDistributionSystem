@@ -110,7 +110,7 @@ namespace AGVDistributionSystem._Services.Services
         {
             
             List<KanbanBuilding> kanbanBuildings = new List<KanbanBuilding>();
-            for(int i = 1; i<=6; i++)
+            for(int i = 1; i<=5; i++)
             {
                 var decascii = Convert.ToByte(i+64);
                 string charascii = Encoding.ASCII.GetString(new byte[]{ decascii });
@@ -118,11 +118,11 @@ namespace AGVDistributionSystem._Services.Services
                 var endofday = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
 
                 var preparationStatusReady = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))
-                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday)
+                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday).Where(x => x.ScanDeliveryAt == null)
                                     .OrderBy(o => o.ScanAt);
 
                 var stitchingStatusReady = _context.ProcessStatus.Where(x => x.Cell.StartsWith(i.ToString()))
-                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday)
+                                    .Where(x => x.ScanAt >= DateTime.Today && x.ScanAt <= endofday).Where(x => x.ScanDeliveryAt == null)
                                     .OrderBy(o => o.ScanAt);  
                                       
                 var preparationStatusDelivery = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))

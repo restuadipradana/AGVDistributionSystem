@@ -92,7 +92,7 @@ namespace AGVDistributionSystem.Controllers
   
             using (var package = new ExcelPackage(stream))  
             {  
-                var workSheet = package.Workbook.Worksheets.Add("GeneratedData");
+                var workSheet = package.Workbook.Worksheets.Add("1"); //harus angka 1 anjay
 
                 workSheet.Cells["A1"].Value = "QRCode";
                 workSheet.Cells["B1"].Value = "Kind";

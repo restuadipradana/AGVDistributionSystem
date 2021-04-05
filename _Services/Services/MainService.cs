@@ -326,7 +326,7 @@ namespace AGVDistributionSystem._Services.Services
                 Draw = ListPrep.Draw
             };
             IQueryable<ProcessStat> query = listStatus.AsQueryable();
-            query = query.OrderBy(x => x.GenerateAt);
+            query = query.OrderByDescending(x => x.GenerateAt);
             bool isFilterNull = string.IsNullOrEmpty(ListPrep.SearchCriteria.Filter); 
 
             if(!isFilterNull)
@@ -344,7 +344,7 @@ namespace AGVDistributionSystem._Services.Services
                 switch(colNameOrder)
                 {
                     case "cell":
-                        query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
+                        //query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
                         break;
                 }
             }
@@ -390,7 +390,7 @@ namespace AGVDistributionSystem._Services.Services
                 Draw = ListSti.Draw
             };
             IQueryable<ProcessStat> query = listStatus.AsQueryable();
-            query = query.OrderBy(x => x.GenerateAt);
+            query = query.OrderByDescending(x => x.GenerateAt);
             bool isFilterNull = string.IsNullOrEmpty(ListSti.SearchCriteria.Filter); 
 
             if(!isFilterNull)
@@ -408,7 +408,7 @@ namespace AGVDistributionSystem._Services.Services
                 switch(colNameOrder)
                 {
                     case "cell":
-                        query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
+                        //query = colOrder.Dir == "asc" ? query.OrderBy(x => x.Cell) : query.OrderByDescending(x => x.Cell);
                         break;
                 }
             }

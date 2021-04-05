@@ -36,7 +36,7 @@ namespace AGVDistributionSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBtestconn")));
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBconn")));
             services.AddControllers().AddNewtonsoftJson();
             //Auto Mapper
             services.AddAutoMapper(typeof(Startup));
@@ -120,7 +120,7 @@ namespace AGVDistributionSystem
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartTooling API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AGV Distribution API V1");
             });
         }
     }
