@@ -7,6 +7,7 @@ namespace AGVDistributionSystem.DTO
     {
         public string Factory {get; set;}
         public string Line {get; set;}
+        public string CellName {get; set;}
         public string MO_No {get; set;}
         public string MO_Seq {get; set;}
         public string PO {get; set;}

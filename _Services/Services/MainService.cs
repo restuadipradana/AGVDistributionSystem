@@ -51,7 +51,7 @@ namespace AGVDistributionSystem._Services.Services
             }
             if(!isFilter3Null)
             {
-                query = query.Where(x => x.Line.Contains(ListPO.SearchCriteria.Filter3));
+                query = query.Where(x => x.CellName.Contains(ListPO.SearchCriteria.Filter3));
             }
             
             var recordsTotal = query.Count();
