@@ -148,7 +148,7 @@ namespace AGVDistributionSystem._Services.Services
                 ListQr = await stiScannedQr.ProjectTo<ProcessStatusDTO>(_configMapper).ToArrayAsync(),
                 ListPo =  await stiScannedPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync()
             };
-            
+            var listCellName = _context.VW_MES_Line.AsQueryable();
 
             //percobaan ke2
             // Task<List<ProcessStat>>
@@ -163,6 +163,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
                 ajg.Cell = lqr.Cell;
+                ajg.CellName = listCellName.Where(x => x.Line_ID == lqr.Cell).Select(y => y.Line_Desc).SingleOrDefault();
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;
@@ -185,6 +186,7 @@ namespace AGVDistributionSystem._Services.Services
             var prepScannedQr = _context.ProcessStatusPreparation.Where(x => x.ScanAt >= DateTime.Now.Date).OrderByDescending(o => o.ScanAt).AsQueryable(); //cari yang sudah di scan
             listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();
             var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+            var listCellName = _context.VW_MES_Line.AsQueryable();
             
             List<ProcessStat> listStatus = new List<ProcessStat>();
             foreach (var lqr in prepScannedQr)
@@ -195,6 +197,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
                 ajg.Cell = lqr.Cell;
+                ajg.CellName = listCellName.Where(x => x.Line_ID == lqr.Cell).Select(y => y.Line_Desc).SingleOrDefault();
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;

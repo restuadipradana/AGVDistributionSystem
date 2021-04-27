@@ -108,7 +108,7 @@ namespace AGVDistributionSystem.Controllers
                 {
                     workSheet.Cells["A" + row].Value = data.QRCode;
                     workSheet.Cells["B" + row].Value = data.Kind == "STI" ? "STITCHING" : "PREPARATION";
-                    workSheet.Cells["C" + row].Value = data.Cell;
+                    workSheet.Cells["C" + row].Value = data.CellName;
                     workSheet.Cells["D" + row].Value = data.POlist[0].Article;
                     workSheet.Cells["E" + row].Value = data.POlist[0].PO;
                     workSheet.Cells["F" + row].Value = data.POlist.Count() > 1 ? data.POlist[1].PO : " ";

@@ -32,6 +32,7 @@ namespace AGVDistributionSystem.Helpers
         public string QRCode {get; set;}
         public string Status {get; set;}
         public string Cell {get; set;}
+        public string CellName {get; set;}
         public DateTime? GenerateAt {get; set;}
         public string GenerateBy {get; set;}
         public DateTime? ScanAt {get; set;}

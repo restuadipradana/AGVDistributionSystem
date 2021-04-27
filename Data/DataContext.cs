@@ -14,6 +14,7 @@ namespace AGVDistributionSystem.Data
         public DbSet<V_PO2> V_PO2 {get; set;}
         public DbSet<VW_MES_Org> VW_MES_Org {get; set;}
         public DbSet<VW_UserAcc> VW_UserAcc {get; set;}
+        public DbSet<VW_MES_Line> VW_MES_Line {get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ProcessStatus>().HasKey(x => new { x.Id, x.Kind });
@@ -24,6 +25,7 @@ namespace AGVDistributionSystem.Data
             modelBuilder.Entity<V_PO2>().HasNoKey();
             modelBuilder.Entity<VW_MES_Org>().HasNoKey();
             modelBuilder.Entity<VW_UserAcc>().HasNoKey();
+            modelBuilder.Entity<VW_MES_Line>().HasNoKey();
         }
 
     }

@@ -300,6 +300,7 @@ namespace AGVDistributionSystem._Services.Services
             listPo = _context.V_PO2.Where(x => x.PrepStatId != null).AsQueryable();
             var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
             List<ProcessStat> listStatus = new List<ProcessStat>();
+            var listCellName = _context.VW_MES_Line.AsQueryable();
             foreach (var lqr in prepWaitingStat)
             {
                 var ajg = new ProcessStat();
@@ -308,6 +309,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
                 ajg.Cell = lqr.Cell;
+                ajg.CellName = listCellName.Where(x => x.Line_ID == lqr.Cell).Select(y => y.Line_Desc).SingleOrDefault();
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;
@@ -363,6 +365,7 @@ namespace AGVDistributionSystem._Services.Services
             var stiWaitingStat = _context.ProcessStatus.Where(x => x.ScanAt == null).AsQueryable(); //cari yang sudah di scan
             listPo = _context.V_PO2.Where(x => x.StiStatId != null).AsQueryable();
             var ListPo =  await listPo.ProjectTo<V_PO2DTO>(_configMapper).ToArrayAsync();
+            var listCellName = _context.VW_MES_Line.AsQueryable();
             List<ProcessStat> listStatus = new List<ProcessStat>();
             foreach (var lqr in stiWaitingStat)
             {
@@ -372,6 +375,7 @@ namespace AGVDistributionSystem._Services.Services
                 ajg.QRCode = lqr.QRCode;
                 ajg.Status = lqr.Status;
                 ajg.Cell = lqr.Cell;
+                ajg.CellName = listCellName.Where(x => x.Line_ID == lqr.Cell).Select(y => y.Line_Desc).SingleOrDefault();
                 ajg.GenerateAt = lqr.GenerateAt;
                 ajg.GenerateBy = lqr.GenerateBy;
                 ajg.ScanAt = lqr.ScanAt;
@@ -422,12 +426,14 @@ namespace AGVDistributionSystem._Services.Services
 
         public async Task<bool> PrepQRDelete(ProcessStat prepQRdata)   
         {
-            Guid? id = Guid.Empty;
-            var listpo = prepQRdata.POlist;
+            var pos = prepQRdata.QRCode.Split(';');
+            Guid id = Guid.Parse(prepQRdata.Id);
+            var listpo = pos;
+            int i = 0;
             foreach (var data in listpo)
             {
-                var runningPOs = _context.RunningPO.Where(x => x.Line == data.Line && x.PO == data.PO).SingleOrDefault();
-                id = runningPOs.PrepStatId;
+                if (i == 0) { i++; continue;} else {i++;}
+                var runningPOs = _context.RunningPO.Where(x => x.Line == prepQRdata.Cell && x.PO == data).SingleOrDefault();
                 runningPOs.PrepStatId = null;
                 _context.RunningPO.Update(runningPOs);
                 await _context.SaveChangesAsync();
@@ -444,12 +450,14 @@ namespace AGVDistributionSystem._Services.Services
 
         public async Task<bool> StiQRDelete(ProcessStat stiQRdata)   
         {
-            Guid? id = Guid.Empty;
-            var listpo = stiQRdata.POlist;
+            var pos = stiQRdata.QRCode.Split(';');
+            Guid? id = Guid.Parse(stiQRdata.Id);
+            var listpo = pos;
+            int i = 0;
             foreach (var data in listpo)
             {
-                var runningPOs = _context.RunningPO.Where(x => x.Line == data.Line && x.PO == data.PO).SingleOrDefault();
-                id = runningPOs.StiStatId;
+                if (i == 0) { i++; continue;} else {i++;}
+                var runningPOs = _context.RunningPO.Where(x => x.Line == stiQRdata.Cell && x.PO == data).SingleOrDefault();
                 runningPOs.StiStatId = null;
                 _context.RunningPO.Update(runningPOs);
                 await _context.SaveChangesAsync();
