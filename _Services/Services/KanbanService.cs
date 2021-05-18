@@ -126,11 +126,11 @@ namespace AGVDistributionSystem._Services.Services
                                     .OrderBy(o => o.ScanAt);  
                                       
                 var preparationStatusDelivery = _context.ProcessStatusPreparation.Where(x => x.Cell.StartsWith(i.ToString()))
-                                    .Where(x => x.Status == "DELIVERY").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                    .Where(x => x.Status == "DISPATCH").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
                                     .OrderBy(o => o.ScanAt);
 
                 var stitchingStatusDelivery = _context.ProcessStatus.Where(x => x.Cell.StartsWith(i.ToString()))
-                                    .Where(x => x.Status == "DELIVERY").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
+                                    .Where(x => x.Status == "DISPATCH").Where(x => DateTime.Now < x.ScanDeliveryAt.Value.AddMinutes(10) || x.ScanDeliveryAt == null)
                                     .OrderBy(o => o.ScanAt);
 
                 // sepasang kueri ini ambil semua yang berstatus delivery dihari itu

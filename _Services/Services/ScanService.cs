@@ -90,7 +90,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     qrSti.ScanDeliveryAt = DateTime.Now;
                     qrSti.ScanDeliveryBy = username;
-                    qrSti.Status = "DELIVERY";
+                    qrSti.Status = "DISPATCH";
                     qrSti.UpdateAt = DateTime.Now;
                     _context.ProcessStatus.Update(qrSti);
                     await _context.SaveChangesAsync();
@@ -112,7 +112,7 @@ namespace AGVDistributionSystem._Services.Services
                     }
                     qrPrep.ScanDeliveryAt = DateTime.Now;
                     qrPrep.ScanDeliveryBy = username;
-                    qrPrep.Status = "DELIVERY";
+                    qrPrep.Status = "DISPATCH";
                     qrPrep.UpdateAt = DateTime.Now;
                     _context.ProcessStatusPreparation.Update(qrPrep);
                     await _context.SaveChangesAsync();
